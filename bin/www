@@ -3,7 +3,6 @@
 /**
  * Module dependencies.
  */
-
 var app = require('../app');
 var debug = require('debug')('iamas-workshop:server');
 var http = require('http');
@@ -21,6 +20,16 @@ app.set('port', port);
 
 var server = http.createServer(app);
 
+// MySQL setting
+// あんまりよくない。普通は設定ファイルや環境変数を定義しますがわかりやすさ優先…
+var mysql = require('mysql');
+var connection = mysql.createConnection({
+  host: process.env.DB_HOST || 'localhost',
+  user: process.env.DB_USER || 'root',
+  password: process.env.DB_PASS || 'iamas',
+  database: process.env.DB_NAME || 'iamas_workshop'
+});
+
 /**
  * Listen on provided port, on all network interfaces.
  */
@@ -36,6 +45,11 @@ io.sockets.on('connection', function (socket) {
 
   socket.on('color message', function(msg){
     console.log('message: ' + msg);
+
+    // MySQLに保存
+    connection.query("insert into colors VALUES(?, ?)",[0, msg], function(error,results,fields){
+    });
+
     io.emit('color message', msg);
   });
 

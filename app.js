@@ -8,6 +8,15 @@ var bodyParser = require('body-parser');
 var index = require('./routes/index');
 var users = require('./routes/users');
 
+// MySQL setting
+var mysql = require('mysql');
+var connection = mysql.createConnection({
+  host: process.env.DB_HOST || 'localhost',
+  user: process.env.DB_USER || 'root',
+  password: process.env.DB_PASS || 'iamas',
+  database: process.env.DB_NAME || 'iamas_workshop'
+});
+
 var app = express();
 
 // view engine setup
@@ -24,6 +33,22 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
+
+app.get('/colors', function (req, res) {
+  console.log("here");
+  connection.query('select * from colors', function (err, rows) {
+    console.log(rows);
+    res.render('colors', { title: 'Express Users', colors: rows });
+  });
+});
+
+app.get('/delete', function (req, res) {
+  console.log("here");
+  connection.query('truncate table colors', function (err, rows) {
+    console.log(rows);
+    res.send('全部消えました！');
+  });
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
