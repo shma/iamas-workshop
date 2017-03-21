@@ -1,0 +1,29 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    script(src='https://code.jquery.com/jquery-3.2.1.min.js')
+    // クライアント用のプログラム
+    script(src='/socket.io/socket.io.js')
+    script(type='text/javascript').
+      var socket = io();
+      $(function () {
+        $('a').on('click',function(event){
+          console.log($(this).attr("value"));
+          socket.emit('color message', $(this).attr("value"));
+          event.preventDefault();
+          event.stopPropagation();
+          return false;
+        });
+
+        // 値を受け取ります。
+        socket.on('color message', function(msg){
+          $('.main').append('<li class="'+msg+'">'+'</li>');
+          $('.main').scrollTop($('.main')[0].scrollHeight);
+          console.log($('.main')[0].scrollHeight);
+        });
+
+      });
+  body
+    block content
