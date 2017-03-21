@@ -9,6 +9,7 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 
 // MySQL setting
+/**
 var mysql = require('mysql');
 var connection = mysql.createConnection({
   host: process.env.DB_HOST || 'localhost',
@@ -16,6 +17,7 @@ var connection = mysql.createConnection({
   password: process.env.DB_PASS || 'iamas',
   database: process.env.DB_NAME || 'iamas_workshop'
 });
+**/
 
 var app = express();
 
@@ -31,9 +33,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.get('/', function (req, res) {
+  res.send('全然動かないよ！！');
+});
+
 app.use('/', index);
 app.use('/users', users);
 
+/**
 app.get('/colors', function (req, res) {
   console.log("here");
   connection.query('select * from colors', function (err, rows) {
@@ -41,7 +48,9 @@ app.get('/colors', function (req, res) {
     res.render('colors', { title: 'Express Users', colors: rows });
   });
 });
+**/
 
+/**
 app.get('/delete', function (req, res) {
   console.log("here");
   connection.query('truncate table colors', function (err, rows) {
@@ -49,6 +58,7 @@ app.get('/delete', function (req, res) {
     res.send('全部消えました！');
   });
 });
+**/
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

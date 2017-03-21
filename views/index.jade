@@ -13,25 +13,29 @@ block content
       li
         a(href='#', class='yellow', value="yellow") Yellow
   script(src='https://code.jquery.com/jquery-3.2.1.min.js')
-  // クライアント用のプログラム
-  script(src='/socket.io/socket.io.js')
+  // クライアント用のプログラムを読み込みます。
+  // script(src='/socket.io/socket.io.js')
   script(type='text/javascript').
-    var socket = io();
+    // var socket = io();
     $(function () {
+      //クリックイベントを取得します。
       $('a').on('click',function(event){
-        console.log($(this).attr("value"));
-        socket.emit('color message', $(this).attr("value"));
+        // socket.emit('color message', $(this).attr("value"));
 
+        // デフォルトのリンクの機能を消失させます。
         event.preventDefault();
         event.stopPropagation();
         return false;
       });
 
-      // 値を受け取ります。
+      // socket.ioから値をを受け取ります。
+      /**
       socket.on('color message', function(msg){
         $('.main').append('<li class="'+msg+'">'+'</li>');
+
+        // 自動的にスクロールするようにします。
         $('.main').scrollTop($('.main')[0].scrollHeight);
 
       });
-
+      **/
     });

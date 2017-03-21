@@ -22,6 +22,7 @@ var server = http.createServer(app);
 
 // MySQL setting
 // あんまりよくない。普通は設定ファイルや環境変数を定義しますがわかりやすさ優先…
+/**
 var mysql = require('mysql');
 var connection = mysql.createConnection({
   host: process.env.DB_HOST || 'localhost',
@@ -29,6 +30,7 @@ var connection = mysql.createConnection({
   password: process.env.DB_PASS || 'iamas',
   database: process.env.DB_NAME || 'iamas_workshop'
 });
+**/
 
 /**
  * Listen on provided port, on all network interfaces.
@@ -38,6 +40,8 @@ server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 
+// socket.ioの処理です。
+/**
 var io = require('socket.io').listen(server);
 io.sockets.on('connection', function (socket) {
 
@@ -47,17 +51,16 @@ io.sockets.on('connection', function (socket) {
     console.log('message: ' + msg);
 
     // MySQLに保存
-    connection.query("insert into colors VALUES(?, ?)",[0, msg], function(error,results,fields){
-    });
-
+//    connection.query("insert into colors VALUES(?, ?)",[0, msg], function(error,results,fields){
+//    });
     io.emit('color message', msg);
   });
 
   socket.on('disconnect', function(){
     console.log('user disconnected');
   });
-
 });
+**/
 
 /**
  * Normalize a port into a number, string, or false.
