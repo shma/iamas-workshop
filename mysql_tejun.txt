@@ -1,0 +1,10 @@
+create database iamas_workshop;
+
+use iamas_workshop
+
+create table colors(id integer primary key auto_increment, color varchar(30) not null );
+
+insert into colors values (null, 'blue');
+
+select * from colors;
+
